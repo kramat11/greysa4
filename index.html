@@ -259,97 +259,83 @@
     </div>
 
     <script>
-        // --- 1. DATABASE VIDEO (Background) ---
-        const videoList = [
-            "" || "https://ceafgif.flirtpixel.com/bundle/921/assets/images/video-1.mp4",
-            "https://files.catbox.moe/387f3z.mp4",
-            "https://files.catbox.moe/y2fr1u.mp4",
-            "https://files.catbox.moe/o2bcz2.mp4",
-            "https://files.catbox.moe/jytnih.mp4",
-            "https://files.catbox.moe/1q99k0.mp4",
-            "https://files.catbox.moe/wkzv09.mp4",
-            "https://files.catbox.moe/9v2zxi.mp4",
-            "https://thumbsnap.com/i/37t8zezA.mp4",
-            "https://thumbsnap.com/i/2ycQSNZa.mp4",
-            "https://thumbsnap.com/i/AY9zveVs.mp4",
-            "https://thumbsnap.com/i/gzm5dPiX.mp4",
-            "https://assets.mixkit.co/videos/preview/mixkit-set-of-abstract-circles-loop-11805-large.mp4"
-        ];
+    // --- 1. DATABASE VIDEO (Background) ---
+    const videoList = [
+        "" || "https://ceafgif.flirtpixel.com/bundle/921/assets/images/video-1.mp4",
+        "https://files.catbox.moe/387f3z.mp4",
+        "https://files.catbox.moe/y2fr1u.mp4",
+        "https://files.catbox.moe/o2bcz2.mp4",
+        "https://files.catbox.moe/jytnih.mp4",
+        "https://files.catbox.moe/1q99k0.mp4",
+        "https://files.catbox.moe/wkzv09.mp4",
+        "https://files.catbox.moe/9v2zxi.mp4",
+        "https://thumbsnap.com/i/37t8zezA.mp4",
+        "https://thumbsnap.com/i/2ycQSNZa.mp4",
+        "https://thumbsnap.com/i/AY9zveVs.mp4",
+        "https://thumbsnap.com/i/gzm5dPiX.mp4",
+        "https://assets.mixkit.co/videos/preview/mixkit-set-of-abstract-circles-loop-11805-large.mp4"
+    ];
 
-        // --- 2. DATABASE GAMBAR (Avatar) ---
-        const photoList = [
-            "https://files.catbox.moe/p9uwso.png",
-            "https://files.catbox.moe/0s5wni.png",
-            "https://files.catbox.moe/2hg2st.png",
-            "https://files.catbox.moe/i4bygx.png",
-            "https://files.catbox.moe/tebpm0.png",
-            "https://files.catbox.moe/ghpyfa.png",
-            "https://files.catbox.moe/5rj761.jpg",
-            "https://files.catbox.moe/2kj1da.png",
-            "https://files.catbox.moe/7k81uw.png",
-            "https://files.catbox.moe/07pxbl.png"
-        ];
+    // --- 2. DATABASE GAMBAR (Avatar) ---
+    const photoList = [
+        "https://files.catbox.moe/p9uwso.png",
+        "https://files.catbox.moe/0s5wni.png",
+        "https://files.catbox.moe/2hg2st.png",
+        "https://files.catbox.moe/i4bygx.png",
+        "https://files.catbox.moe/tebpm0.png",
+        "https://files.catbox.moe/ghpyfa.png",
+        "https://files.catbox.moe/5rj761.jpg",
+        "https://files.catbox.moe/2kj1da.png",
+        "https://files.catbox.moe/7k81uw.png",
+        "https://files.catbox.moe/07pxbl.png"
+    ];
 
-        // --- 3. DATABASE NAMA (ADMIN) ---
-        const femaleNames = [
-            "Luna Whitney", "Grace Sophia", "Charlotte Davis", "Victoria Rose",
-            "Camille Stone", "Isabella Ross", "Eleanor Rigby", "Scarlett J", "Amber H"
-        ];
+    // --- 3. DATABASE NAMA (ADMIN) ---
+    const femaleNames = [
+        "Luna Whitney", "Grace Sophia", "Charlotte Davis", "Victoria Rose",
+        "Camille Stone", "Isabella Ross", "Eleanor Rigby", "Scarlett J", "Amber H"
+    ];
 
-        function getRandomItem(list) {
-            return list[Math.floor(Math.random() * list.length)];
+    function getRandomItem(list) {
+        return list[Math.floor(Math.random() * list.length)];
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- A. LOGIKA VIDEO BACKGROUND ---
+        const videoElement = document.getElementById('bgVideo');
+        const randomVideoUrl = getRandomItem(videoList);
+        
+        if (randomVideoUrl) {
+            videoElement.src = randomVideoUrl;
+            // Pastikan video diputar (beberapa browser memblokir autoplay jika tidak muted)
+            videoElement.play().catch(error => {
+                console.log("Autoplay video prevented by browser policy:", error);
+            });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- A. LOGIKA VIDEO BACKGROUND ---
-            const videoElement = document.getElementById('bgVideo');
-            const randomVideoUrl = getRandomItem(videoList);
-            
-            if (randomVideoUrl) {
-                videoElement.src = randomVideoUrl;
-                // Pastikan video diputar (beberapa browser memblokir autoplay jika tidak muted)
-                videoElement.play().catch(error => {
-                    console.log("Autoplay video prevented by browser policy:", error);
-                });
-            }
+        // --- B. LOGIKA TAMPILAN (Gambar & Nama) ---
+        
+        // Foto Profil (Avatar)
+        const profileImg = getRandomItem(photoList);
+        document.getElementById('randomProfileImg').src = profileImg;
 
-            // --- B. LOGIKA TRACKING ---
-            const params = new URLSearchParams(window.location.search);
-            const refId = params.get('id');
-            
-            if (refId) {
-                const trackingUrl = `https://report.greysyaa.lol/track?cid=${refId}`;
-                const trackPixel = new Image();
-                trackPixel.src = trackingUrl;
-            } else {
-                console.log("Tidak ditemukan parameter 'id' di URL untuk tracking.");
-            }
+        // Nama Admin Random
+        const randomName = getRandomItem(femaleNames);
+        document.getElementById('adminName').textContent = randomName;
+    });
 
-            // --- C. LOGIKA TAMPILAN (Gambar & Nama) ---
-            
-            // Foto Profil (Avatar)
-            const profileImg = getRandomItem(photoList);
-            document.getElementById('randomProfileImg').src = profileImg;
-
-            // Nama Admin Random
-            const randomName = getRandomItem(femaleNames);
-            document.getElementById('adminName').textContent = randomName;
-        });
-
-        // --- 4. Redirect Logic ---
-        function redirectUser() {
-            const params = new URLSearchParams(window.location.search);
-            const destination = params.get('dest');
-            const refId = params.get('id');
-
-            if (destination) {
-                const finalDest = decodeURIComponent(destination);
-                const separator = finalDest.includes('?') ? '&' : '?';
-                window.location.href = finalDest + separator + 'id=' + refId;
-            } else {
-                alert("Link tujuan tidak ditemukan.");
-            }
+    // --- 4. Redirect Logic (BERSIH) ---
+    function redirectUser() {
+        const params = new URLSearchParams(window.location.search);
+        const destination = params.get('dest');
+        
+        if (destination) {
+            // Langsung redirect bersih tanpa menambahkan parameter ID
+            window.location.href = decodeURIComponent(destination);
+        } else {
+            alert("Link tujuan tidak ditemukan.");
         }
-    </script>
+    }
+</script>
 </body>
 </html>
